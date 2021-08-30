@@ -4,7 +4,7 @@ export default function ListHeader({
     name: 'anonymous',
     img: '/src/assets/img-profile-default.svg'
   },
-  onPageAdd
+  onAddPage
 }) {
   const $header = document.createElement('div')
   $header.classList.add('header')
@@ -24,6 +24,6 @@ export default function ListHeader({
 
 
   $header.querySelector('button').addEventListener('click', (e) => {
-    onPageAdd(e)
+    onAddPage()
   })
 }

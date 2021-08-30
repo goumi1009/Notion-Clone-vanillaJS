@@ -14,20 +14,25 @@ export default function SideContainer({ $target }) {
     pages: []
   }
 
+  const addPage = async (title, parent) => {
+    await request('', {
+      method: 'POST',
+      body: JSON.stringify({
+        title,
+        parent
+      })
+    })
+
+    await init()
+  }
+
   this.render = () => {
     new ListHeader({
       $target: $sideContainer,
       initialState: this.state.user,
-      onPageAdd: async (e) => {
-        await request('', {
-          method: 'POST',
-          body: JSON.stringify({
-            title: '제목없음',
-            parent: null
-          })
-        })
-
-        await init()
+      onAddPage: () => {
+        addPage('제목없음', null)
+        pageList.render()
       }
     })
 
@@ -42,7 +47,7 @@ export default function SideContainer({ $target }) {
         const { id } = li.dataset
         alert(id)
       },
-      onTogglePage: async (li) => {
+      onTogglePage: async () => {
       }
     })
 
