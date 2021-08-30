@@ -1,6 +1,15 @@
 export const request = async (url, options = {}) => {
   try {
-    const res = await fetch(`${API_END_POINT}${url}`, options);
+    const res = await fetch(
+      `${API_END_POINT}${url}`,
+      (options = {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-username': USERNAME,
+        },
+        ...options,
+      })
+    );
     if (res.ok) {
       const json = await res.json();
       return json;

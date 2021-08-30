@@ -8,7 +8,7 @@ export default function PageList({
   $target.appendChild($pageList)
 
   this.state = initialState
-  this.setSate = nextState => {
+  this.setState = nextState => {
     this.state = nextState
     this.render()
   }
@@ -20,16 +20,17 @@ export default function PageList({
     }
 
     $pageList.innerHTML = `
-      <em>PRIVATE</em>
       <ul>
-        ${this.state.map(page => `<li data-id="${page.id}"><button class="btn-page-toggle" type="button">🔻</button><a>${page.title}</a></li>`).join('')}
+        ${this.state.map(page => `<li data-id="${page.id}"><button class="btn-page-toggle" type="button">🔻</button><a name="title">${page.title}</a></li>`).join('')}
       </ul>
     `
   }
 
   $pageList.addEventListener('click', (e) => {
     const $li = e.target.closest('li')
-    onSelect($li)
+    if (e.target.name === 'title') {
+      onSelect($li)
+    }
   })
 
   this.render()

@@ -17,16 +17,31 @@ export default function SideContainer({ $target }) {
   this.render = () => {
     new ListHeader({
       $target: $sideContainer,
-      initialState: this.state.user
+      initialState: this.state.user,
+      onPageAdd: async (e) => {
+        await request('', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: '제목없음',
+            parent: 1760
+          })
+        })
+
+        await init()
+      }
     })
 
-    new PageList({
+    this.setState = nextState => {
+      this.state = nextState
+      pageList.setState(this.state.pages)
+    }
+    const pageList = new PageList({
       $target: $sideContainer,
       initialState: this.state.pages,
       onSelect: (li) => {
         const { id } = li.dataset
         alert(id)
-      }
+      },
     })
 
   }
@@ -36,11 +51,11 @@ export default function SideContainer({ $target }) {
   const init = async () => {
     const pages = await request('', {
       method: 'GET',
-      headers: {
-        'x-username': 'goumi1009'
-      }
     })
-    console.log(pages)
+    this.setState({
+      ...this.state,
+      pages
+    })
   }
   init()
 }
