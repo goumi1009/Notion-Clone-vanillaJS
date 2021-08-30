@@ -16,7 +16,7 @@ export default function ListHeader({
     $header.innerHTML = `
       <img src="${img}">
       <h1>${name}</</h1>
-      <button class="" type="button">Add Page</button>
+      <button class="btn-add-page" type="button">Add Page</button>
     `
   }
 

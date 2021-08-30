@@ -23,7 +23,7 @@ export default function SideContainer({ $target }) {
           method: 'POST',
           body: JSON.stringify({
             title: '제목없음',
-            parent: 1760
+            parent: null
           })
         })
 
@@ -42,6 +42,8 @@ export default function SideContainer({ $target }) {
         const { id } = li.dataset
         alert(id)
       },
+      onTogglePage: async (li) => {
+      }
     })
 
   }

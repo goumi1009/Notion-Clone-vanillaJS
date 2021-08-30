@@ -21,7 +21,13 @@ export default function PageList({
 
     $pageList.innerHTML = `
       <ul>
-        ${this.state.map(page => `<li data-id="${page.id}"><button class="btn-page-toggle" type="button">🔻</button><a name="title">${page.title}</a></li>`).join('')}
+        ${this.state.map(page => `
+          <li data-id="${page.id}">
+            <button class="btn-page-toggle open" type="button">page list toggle</button>
+            <a name="title">${page.title}</a>
+            <button class="btn-del-page" type="button">Delete Page</button>
+            <button class="btn-add-page" type="button">Add Page</button>
+          </li>`).join('')}
       </ul>
     `
   }
