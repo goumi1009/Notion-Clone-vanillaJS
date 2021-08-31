@@ -43,11 +43,20 @@ export default function SideContainer({ $target }) {
     const pageList = new PageList({
       $target: $sideContainer,
       initialState: this.state.pages,
-      onSelect: (li) => {
-        const { id } = li.dataset
-        alert(id)
+      onSelectPage: (id) => {
+        console.log(id)
       },
-      onTogglePage: async () => {
+      onDeletePage: async (id) => {
+        await request(`/${id}`, {
+          method: 'DELETE'
+        })
+        await init()
+        pageList.render()
+      },
+      onToggleList: () => {
+
+      },
+      onAddPage: (id) => {
       }
     })
 

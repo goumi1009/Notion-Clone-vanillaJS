@@ -1,8 +1,10 @@
 export default function PageList({
   $target,
   initialState,
-  onSelect,
-  onTogglePage
+  onSelectPage,
+  onDeletePage,
+  onToggleList,
+  onAddPage
 }) {
   const $pageList = document.createElement('div')
   $target.appendChild($pageList)
@@ -23,20 +25,56 @@ export default function PageList({
       <ul>
         ${this.state.map(page => `
           <li data-id="${page.id}">
-            <button class="btn-page-toggle open" type="button">page list toggle</button>
-            <a name="title">${page.title}</a>
-            <button class="btn-del-page" type="button">Delete Page</button>
-            <button class="btn-add-page" type="button">Add Page</button>
+            <div>
+              <button class="btn-toggle-page open" type="button">page list toggle</button>
+              <a name="title">${page.title}</a>
+              <button class="btn-del-page" type="button">Delete Page</button>
+              <button class="btn-add-page" type="button">Add Page</button>
+            </div>
           </li>`).join('')}
       </ul>
     `
+
+    console.log('render')
   }
 
   $pageList.addEventListener('click', (e) => {
-    const $li = e.target.closest('li')
-    if (e.target.name === 'title') {
-      onSelect($li)
+    const $this = e.target
+    const $li = $this.closest('li')
+    const classList = $this.classList
+    const id = Number($li.dataset.id)
+
+    // 페이지 제목 클릭
+    if ($this.name === 'title') {
+      onSelectPage(id)
     }
+
+    // 페이지 리스트 토글버튼
+    if (classList.contains('btn-toggle-page')) {
+      console.log(classList)
+      onToggleList()
+      if (classList.contains('open')) {  // 리스트 열림상태
+        classList.remove('open')
+        classList.add('close')
+      } else {  // 리스트 닫힘상태
+        classList.remove('close')
+        classList.add('open')
+      }
+    }
+
+    // 페이지 삭제 버튼
+    if (classList.contains('btn-del-page')) {
+      console.log(classList)
+      onDeletePage(id)
+
+    }
+
+    // 페이지 추가 버튼
+    if (classList.contains('btn-add-page')) {
+      console.log(classList)
+      onAddPage(id)
+    }
+
   })
 
   this.render()
