@@ -34,8 +34,6 @@ export default function PageList({
           </li>`).join('')}
       </ul>
     `
-
-    console.log('render')
   }
 
   $pageList.addEventListener('click', (e) => {
@@ -51,12 +49,12 @@ export default function PageList({
 
     // 페이지 리스트 토글버튼
     if (classList.contains('btn-toggle-page')) {
-      console.log(classList)
-      onToggleList()
       if (classList.contains('open')) {  // 리스트 열림상태
+        onToggleList($li, id, 'open')
         classList.remove('open')
         classList.add('close')
       } else {  // 리스트 닫힘상태
+        onToggleList($li, id, 'close')
         classList.remove('close')
         classList.add('open')
       }
@@ -64,14 +62,12 @@ export default function PageList({
 
     // 페이지 삭제 버튼
     if (classList.contains('btn-del-page')) {
-      console.log(classList)
       onDeletePage(id)
 
     }
 
     // 페이지 추가 버튼
     if (classList.contains('btn-add-page')) {
-      console.log(classList)
       onAddPage(id)
     }
 

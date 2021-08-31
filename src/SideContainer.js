@@ -53,10 +53,40 @@ export default function SideContainer({ $target }) {
         await init()
         pageList.render()
       },
-      onToggleList: () => {
+      onToggleList: async ($target, id, state) => {
+        const page = await request(`/${id}`, {
+          method: 'GET'
+        })
+        const subPages = page.documents
+        const $subList = state === 'open' ? document.createElement('ul') : $target.querySelector('.sub-list')
+        console.log(state, subPages)
 
+        if (state === 'open') {
+          $subList.classList.add('sub-list')
+          await $target.appendChild($subList)
+
+          if (!subPages.length) {
+            $subList.innerHTML = `<li>하위페이지가 없습니다</li>`
+            return
+          }
+
+          $subList.innerHTML = await `${subPages.map(page => `
+            <li data-id="${page.id}">
+              <div>
+                <button class="btn-toggle-page open" type="button">page list toggle</button>
+                <a name="title">${page.title}</a>
+                <button class="btn-del-page" type="button">Delete Page</button>
+                <button class="btn-add-page" type="button">Add Page</button>
+              </div>
+            </li>`).join('')}`
+        } else if (state === 'close') {
+          await $target.removeChild($subList)
+        }
+        console.log($subList)
       },
       onAddPage: (id) => {
+        addPage('제목없음', id)
+
       }
     })
 
