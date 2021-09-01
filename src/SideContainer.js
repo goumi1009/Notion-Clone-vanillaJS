@@ -10,6 +10,7 @@ export default function SideContainer({ $target }) {
   this.state = {
     user: {
       name: 'GOUM',
+      img: '/src/assets/img-profile-default.svg'
     },
     pages: []
   }
@@ -66,7 +67,7 @@ export default function SideContainer({ $target }) {
           await $target.appendChild($subList)
 
           if (!subPages.length) {
-            $subList.innerHTML = `<li>하위페이지가 없습니다</li>`
+            $subList.innerHTML = `<li class="no-page"><div>하위페이지가 없습니다</div></li>`
             return
           }
 
@@ -75,8 +76,10 @@ export default function SideContainer({ $target }) {
               <div>
                 <button class="btn-toggle-page open" type="button">page list toggle</button>
                 <a name="title">${page.title}</a>
-                <button class="btn-del-page" type="button">Delete Page</button>
-                <button class="btn-add-page" type="button">Add Page</button>
+                <div class="hidden-box">
+                  <button class="btn-del-page" type="button" title="페이지 제거">Delete Page</button>
+                  <button class="btn-add-page" type="button" title="페이지 내에 하위페이지 추가하기">Add Page</button>
+                </div>
               </div>
             </li>`).join('')}`
         } else if (state === 'close') {

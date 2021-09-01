@@ -1,9 +1,6 @@
 export default function ListHeader({
   $target,
-  initialState = {
-    name: 'anonymous',
-    img: '/src/assets/img-profile-default.svg'
-  },
+  initialState,
   onAddPage
 }) {
   const $header = document.createElement('div')
@@ -15,8 +12,8 @@ export default function ListHeader({
     const { name, img } = this.state
     $header.innerHTML = `
       <img src="${img}">
-      <h1>${name}</</h1>
-      <button class="btn-add-page" type="button">Add Page</button>
+      <h1>${name}</h1>
+      <button class="btn-add-page" type="button" title="페이지 추가">Add Page</button>
     `
   }
 
