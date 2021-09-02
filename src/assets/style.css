@@ -58,12 +58,20 @@ button {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.side-container .sub-list li > div {
+.side-container div + ul li > div {
   padding-left: 30px;
 }
 
-.side-container .sub-list li li > div {
+.side-container div + ul li li > div {
   padding-left: 45px;
+}
+
+.side-container li > ul {
+  display: none;
+}
+
+.side-container li.open > ul {
+  display: block;
 }
 
 .side-container .no-page {
@@ -94,7 +102,7 @@ button {
   border: 0;
 }
 
-.side-container li .btn-toggle-page.close::after {
+.side-container li.open > div .btn-toggle-page::after {
   transform: rotate(90deg);
 }
 
