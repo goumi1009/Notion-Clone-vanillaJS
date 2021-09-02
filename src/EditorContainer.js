@@ -44,6 +44,7 @@ export default function EditorContainer({ $target, initialState }) {
     }
 
     this.state = nextState
+    console.log(nextState)
     this.render()
     editor.setState(this.state.page || {
       title: '',
@@ -59,13 +60,26 @@ export default function EditorContainer({ $target, initialState }) {
 
   const fetchPost = async () => {
     const { id } = this.state
-    if (id !== 'new') {
-      const page = await request(`/${id}`)
-      this.setState({
-        ...this.state,
-        page
-      })
-    }
+    const page = await request(`/${id}`)
 
+    const autoSavePage = getItem(autoSaveLocalKey, {
+      title: '',
+      content: ''
+    })
+    const { saveDate } = autoSavePage
+    if (saveDate && saveDate > page.updatedAt) {
+      if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
+        // console.log(autoSavePage)
+        this.setState({
+          ...this.state,
+          page: autoSavePage
+        })
+        return
+      }
+    }
+    this.setState({
+      ...this.state,
+      page
+    })
   }
 }
