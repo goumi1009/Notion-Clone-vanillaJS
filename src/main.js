@@ -1,5 +1,5 @@
-import SideContainer from './SideContainer.js'
+import App from './App.js'
 
 const $target = document.querySelector('#app')
 
-new SideContainer({ $target })
+new App({ $target })
