@@ -9,9 +9,9 @@ export default function EditorContainer({ $target, initialState }) {
 
   this.state = initialState
 
-  let PAGE_AUTO_SAVE_KEY = `autoSaveData_${this.state.id}`
+  let autoSaveLocalKey = `autoSaveData_${this.state.id}`
 
-  const page = getItem(PAGE_AUTO_SAVE_KEY, {
+  const page = getItem(autoSaveLocalKey, {
     title: '',
     content: ''
   })
@@ -27,18 +27,17 @@ export default function EditorContainer({ $target, initialState }) {
       }
 
       timer = setTimeout(() => {
-        setItem(PAGE_AUTO_SAVE_KEY, {
+        setItem(autoSaveLocalKey, {
           ...data,
           saveDate: new Date()
         })
-
-        console.log(data)
       }, 1000)
     }
   })
 
   this.setState = async nextState => {
     if (this.state.id !== nextState.id) {
+      autoSaveLocalKey = `autoSaveData_${nextState.id}`
       this.state = nextState
       await fetchPost()
       return
@@ -46,7 +45,10 @@ export default function EditorContainer({ $target, initialState }) {
 
     this.state = nextState
     this.render()
-    editor.setState(this.state.page)
+    editor.setState(this.state.page || {
+      title: '',
+      content: ''
+    })
   }
 
   this.render = () => {

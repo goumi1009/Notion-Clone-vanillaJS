@@ -3,7 +3,7 @@ import EditorContainer from './EditorContainer.js'
 
 export default function App({ $target }) {
 
-  new SideContainer({ $target })
+  const sideConatiner = new SideContainer({ $target })
   const editorContainer = new EditorContainer({
     $target,
     initialState: {
@@ -11,8 +11,16 @@ export default function App({ $target }) {
     }
   })
 
-  editorContainer.setState({
-    id: 3874
-  })
+  this.route = () => {
+    const { pathname } = window.location
+    if (pathname === '/') {
+      sideConatiner.render()
+    } else if (pathname.indexOf('/documents/') === 0) {
+      const [, , id] = pathname.split('/')
+      editorContainer.setState({ id })
+    }
+  }
+
+  this.route()
 
 }
