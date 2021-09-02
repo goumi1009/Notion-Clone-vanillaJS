@@ -3,7 +3,6 @@ export default function PageList({
   initialState,
   onSelectPage,
   onDeletePage,
-  onToggleList,
   onAddPage
 }) {
   const $pageList = document.createElement('div')
@@ -21,55 +20,52 @@ export default function PageList({
       return
     }
 
-    $pageList.innerHTML = `
-      <ul>
-        ${this.state.map(page => `
+    const loadList = (list) => {
+      return `<ul>
+        ${list.map(page => `
           <li data-id="${page.id}">
             <div>
-              <button class="btn-toggle-page open" type="button">page list toggle</button>
+              <button class="btn-toggle-page" type="button">page list toggle</button>
               <a name="title">${page.title}</a>
               <div class="hidden-box">
                 <button class="btn-del-page" type="button" title="페이지 제거">Delete Page</button>
                 <button class="btn-add-page" type="button" title="페이지 내에 하위페이지 추가하기">Add Page</button>
               </div>
             </div>
-          </li>`).join('')}
-      </ul>
-    `
+            ${page.documents.length ? loadList(page.documents) : `<ul><li class="no-page"><div>하위페이지가 없습니다</div></li></ul>`}
+          </li>
+        `).join('')}
+      </ul>`
+    }
+
+    $pageList.innerHTML = loadList(this.state)
+
   }
 
   $pageList.addEventListener('click', (e) => {
     const $this = e.target
     const $li = $this.closest('li')
-    const classList = $this.classList
     const id = Number($li.dataset.id)
 
     // 페이지 제목 클릭
     if ($this.name === 'title') {
       onSelectPage(id)
+
     }
 
     // 페이지 리스트 토글버튼
-    if (classList.contains('btn-toggle-page')) {
-      if (classList.contains('open')) {  // 리스트 열림상태
-        onToggleList($li, id, 'open')
-        classList.remove('open')
-        classList.add('close')
-      } else {  // 리스트 닫힘상태
-        onToggleList($li, id, 'close')
-        classList.remove('close')
-        classList.add('open')
-      }
+    if ($this.classList.contains('btn-toggle-page')) {
+      $li.classList.toggle('open')
     }
 
     // 페이지 삭제 버튼
-    if (classList.contains('btn-del-page')) {
+    if ($this.classList.contains('btn-del-page')) {
       onDeletePage(id)
 
     }
 
     // 페이지 추가 버튼
-    if (classList.contains('btn-add-page')) {
+    if ($this.classList.contains('btn-add-page')) {
       onAddPage(id)
     }
 
