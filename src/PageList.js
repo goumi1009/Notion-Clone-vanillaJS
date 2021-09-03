@@ -40,35 +40,44 @@ export default function PageList({
 
     $pageList.innerHTML = loadList(this.state)
 
+    const $addPageButton = document.createElement('div')
+    $addPageButton.innerHTML = `<button class="btn-add-root">페이지 추가</button>`
+    $pageList.appendChild($addPageButton)
   }
 
   $pageList.addEventListener('click', (e) => {
     const $this = e.target
     const $li = $this.closest('li')
-    const id = Number($li.dataset.id)
 
-    // 페이지 제목 클릭
-    if ($this.name === 'title') {
-      onSelectPage(id)
+    if ($li) {
+      const id = Number($li.dataset.id)
 
+      // 페이지 제목 클릭
+      if ($this.name === 'title') {
+        onSelectPage(id)
+
+      }
+
+      // 페이지 리스트 토글버튼
+      if ($this.classList.contains('btn-toggle-page')) {
+        $li.classList.toggle('open')
+      }
+
+      // 페이지 삭제 버튼
+      if ($this.classList.contains('btn-del-page')) {
+        onDeletePage(id)
+
+      }
+
+      // 페이지 추가 버튼
+      if ($this.classList.contains('btn-add-page')) {
+        onAddPage(id)
+      }
     }
 
-    // 페이지 리스트 토글버튼
-    if ($this.classList.contains('btn-toggle-page')) {
-      $li.classList.toggle('open')
+    if ($this.classList.contains('btn-add-root')) {
+      onAddPage()
     }
-
-    // 페이지 삭제 버튼
-    if ($this.classList.contains('btn-del-page')) {
-      onDeletePage(id)
-
-    }
-
-    // 페이지 추가 버튼
-    if ($this.classList.contains('btn-add-page')) {
-      onAddPage(id)
-    }
-
   })
 
   this.render()

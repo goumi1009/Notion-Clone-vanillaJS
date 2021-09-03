@@ -40,10 +40,7 @@ export default function SideContainer({ $target }) {
 
     new ListHeader({
       $target: $sideContainer,
-      initialState: this.state.user,
-      onAddPage: () => {
-        addPage('제목없음', null)
-      }
+      initialState: this.state.user
     })
 
     const pageList = new PageList({
@@ -62,9 +59,8 @@ export default function SideContainer({ $target }) {
           pageList
         })
       },
-      onAddPage: (id) => {
+      onAddPage: (id = null) => {
         addPage('제목없음', id)
-
       }
     })
 

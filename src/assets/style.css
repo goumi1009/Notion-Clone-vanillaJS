@@ -83,7 +83,7 @@ button {
   cursor: pointer;
 }
 
-.side-container button {
+.side-container li button {
   overflow: hidden;
   width: 21px;
   height: 21px;
@@ -149,4 +149,21 @@ button {
 
 .side-container .hidden-box button {
   margin-left: 5px;
+}
+
+.side-container .btn-add-root {
+  width: 100%;
+  padding: 5px 15px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.side-container .btn-add-root::before {
+  content: "";
+  display: inline-block;
+  width: 21px;
+  height: 21px;
+  background: url("/src/assets/icon-add.svg") no-repeat center top 5px;
+  background-size: 12px;
+  vertical-align: sub;
 }
