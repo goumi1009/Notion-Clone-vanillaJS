@@ -1,5 +1,6 @@
 import SideContainer from './SideContainer.js'
 import EditorContainer from './EditorContainer.js'
+import { initRouter } from './router.js'
 
 export default function App({ $target }) {
 
@@ -13,9 +14,7 @@ export default function App({ $target }) {
 
   this.route = () => {
     const { pathname } = window.location
-    if (pathname === '/') {
-      sideConatiner.render()
-    } else if (pathname.indexOf('/documents/') === 0) {
+    if (pathname.indexOf('/documents/') === 0) {
       const [, , id] = pathname.split('/')
       editorContainer.setState({ id })
     }
@@ -23,4 +22,5 @@ export default function App({ $target }) {
 
   this.route()
 
+  initRouter(() => this.route())
 }

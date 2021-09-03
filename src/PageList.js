@@ -1,3 +1,5 @@
+import { push } from './router.js'
+
 export default function PageList({
   $target,
   initialState,
@@ -54,7 +56,8 @@ export default function PageList({
 
       // 페이지 제목 클릭
       if ($this.name === 'title') {
-        onSelectPage(id)
+        // onSelectPage(id)
+        push(`/documents/${id}`)
 
       }
 
