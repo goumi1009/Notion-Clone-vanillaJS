@@ -167,3 +167,41 @@ button {
   background-size: 12px;
   vertical-align: sub;
 }
+
+.editor-container {
+  float: left;
+  width: calc(100% - 240px);
+  box-sizing: border-box;
+}
+
+.editor-container div {
+  width: 100%;
+}
+
+.editor-container input {
+  width: calc(100% - 100px);
+  margin: 50px 50px 10px;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.editor-container input:focus {
+  outline: 0;
+  border-bottom-color: #ccc;
+}
+
+.editor-container textarea {
+  width: 100%;
+  height: 70vh;
+  padding: 15px 50px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  font-size: 16px;
+}
+
+.editor-container textarea:focus {
+  outline: 0;
+}

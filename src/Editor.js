@@ -21,8 +21,8 @@ export default function Editor({
     if (!isInitialized) {
       isInitialized = true
       $editor.innerHTML = `
-        <input name="title" type="text" title="페이지 제목" style="width: 500px" value="${this.state.title}">
-        <textarea name="content" style="width: 500px; height: 500px;">${this.state.content}</textarea>
+        <input name="title" type="text" title="페이지 제목" value="${this.state.title}">
+        <textarea name="content">${this.state.content}</textarea>
       `
     }
     $editor.querySelector('[name=title]').value = this.state.title
