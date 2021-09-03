@@ -21,17 +21,23 @@ export default function EditorContainer({ $target, initialState }) {
   const editor = new Editor({
     $target: $editorContainer,
     initialState: page,
-    autoSave: (data) => {
+    autoSave: (page) => {
       if (timer !== null) {
         clearTimeout(timer)
       }
 
-      timer = setTimeout(() => {
+      timer = setTimeout(async () => {
+        console.log(page)
         setItem(autoSaveLocalKey, {
-          ...data,
+          ...page,
           saveDate: new Date()
         })
-      }, 1000)
+
+        await request(`/${this.state.id}`, {
+          method: 'PUT',
+          body: JSON.stringify(page)
+        })
+      }, 2000)
     }
   })
 
@@ -44,7 +50,6 @@ export default function EditorContainer({ $target, initialState }) {
     }
 
     this.state = nextState
-    console.log(nextState)
     this.render()
     editor.setState(this.state.page || {
       title: '',
@@ -69,7 +74,6 @@ export default function EditorContainer({ $target, initialState }) {
     const { saveDate } = autoSavePage
     if (saveDate && saveDate > page.updatedAt) {
       if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
-        // console.log(autoSavePage)
         this.setState({
           ...this.state,
           page: autoSavePage
