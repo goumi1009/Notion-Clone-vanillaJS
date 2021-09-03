@@ -1,6 +1,7 @@
 import { request } from './api.js'
 import ListHeader from './ListHeader.js'
 import PageList from './PageList.js'
+import { push } from './router.js'
 
 export default function SideContainer({ $target }) {
   const $sideContainer = document.createElement('div')
@@ -23,7 +24,7 @@ export default function SideContainer({ $target }) {
         parent
       })
     })
-
+    push(`/documents/${pageList.id}`)
     await init()
     this.setState({
       ...this.state,
@@ -46,9 +47,6 @@ export default function SideContainer({ $target }) {
     const pageList = new PageList({
       $target: $sideContainer,
       initialState: this.state.pages,
-      onSelectPage: (id) => {
-        console.log(id)
-      },
       onDeletePage: async (id) => {
         const pageList = await request(`/${id}`, {
           method: 'DELETE'
@@ -58,6 +56,7 @@ export default function SideContainer({ $target }) {
           ...this.state,
           pageList
         })
+        push(`/`)
       },
       onAddPage: (id = null) => {
         addPage('제목없음', id)

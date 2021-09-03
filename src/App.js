@@ -8,7 +8,7 @@ export default function App({ $target }) {
   const editorContainer = new EditorContainer({
     $target,
     initialState: {
-      id: 'new'
+      id: null
     }
   })
 

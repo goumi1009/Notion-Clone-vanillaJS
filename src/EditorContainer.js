@@ -58,7 +58,9 @@ export default function EditorContainer({ $target, initialState }) {
   }
 
   this.render = () => {
-    $target.appendChild($editorContainer)
+    if (this.state.id !== null) {
+      $target.appendChild($editorContainer)
+    }
   }
 
   this.render()

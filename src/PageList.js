@@ -3,7 +3,6 @@ import { push } from './router.js'
 export default function PageList({
   $target,
   initialState,
-  onSelectPage,
   onDeletePage,
   onAddPage
 }) {
@@ -56,7 +55,6 @@ export default function PageList({
 
       // 페이지 제목 클릭
       if ($this.name === 'title') {
-        // onSelectPage(id)
         push(`/documents/${id}`)
 
       }
@@ -69,7 +67,6 @@ export default function PageList({
       // 페이지 삭제 버튼
       if ($this.classList.contains('btn-del-page')) {
         onDeletePage(id)
-
       }
 
       // 페이지 추가 버튼
