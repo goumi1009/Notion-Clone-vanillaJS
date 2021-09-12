@@ -1,80 +1,31 @@
-import { request } from './api.js'
 import ListHeader from './ListHeader.js'
 import PageList from './PageList.js'
-import { push } from './router.js'
 
-export default function SideContainer({ $target }) {
+export default function SideContainer({ $target, initialState, onDeletePage, onAddPage }) {
   const $sideContainer = document.createElement('div')
   $sideContainer.classList.add('side-container')
-  $target.appendChild($sideContainer)
 
-  this.state = {
-    user: {
-      name: 'GOUM',
-      img: '/src/assets/img-profile-default.svg'
-    },
-    pages: []
+  this.state = initialState
+
+  this.setState = nextState => {
+    this.state = nextState
+    pageList.setState(this.state.pages)
   }
 
-  const addPage = async (title, parent) => {
-    const pageList = await request('', {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-        parent
-      })
-    })
-    push(`/documents/${pageList.id}`)
-    await init()
-    this.setState({
-      ...this.state,
-      pageList
-    })
-  }
+  new ListHeader({
+    $target: $sideContainer,
+    initialState: this.state.user
+  })
+
+  const pageList = new PageList({
+    $target: $sideContainer,
+    initialState: this.state.pages,
+    onDeletePage,
+    onAddPage
+  })
 
   this.render = () => {
-
-    this.setState = nextState => {
-      this.state = nextState
-      pageList.setState(this.state.pages)
-    }
-
-    new ListHeader({
-      $target: $sideContainer,
-      initialState: this.state.user
-    })
-
-    const pageList = new PageList({
-      $target: $sideContainer,
-      initialState: this.state.pages,
-      onDeletePage: async (id) => {
-        const pageList = await request(`/${id}`, {
-          method: 'DELETE'
-        })
-        await init()
-        this.setState({
-          ...this.state,
-          pageList
-        })
-        push(`/`)
-      },
-      onAddPage: (id = null) => {
-        addPage('제목없음', id)
-      }
-    })
-
+    $target.appendChild($sideContainer)
   }
-
   this.render()
-
-  const init = async () => {
-    const pages = await request('', {
-      method: 'GET',
-    })
-    this.setState({
-      ...this.state,
-      pages
-    })
-  }
-  init()
 }

@@ -1,4 +1,5 @@
 import { push } from './router.js'
+import { getItem, removeItem, setItem } from './storage.js'
 
 export default function PageList({
   $target,
@@ -24,7 +25,7 @@ export default function PageList({
     const loadList = (list) => {
       return `<ul>
         ${list.map(page => `
-          <li data-id="${page.id}">
+          <li data-id="${page.id}" class="${getItem(`isOpend_${page.id}`, false) ? 'open' : ''}">
             <div>
               <button class="btn-toggle-page" type="button">page list toggle</button>
               <a name="title">${page.title}</a>
@@ -35,14 +36,15 @@ export default function PageList({
             </div>
             ${page.documents.length ? loadList(page.documents) : `<ul><li class="no-page"><div>하위페이지가 없습니다</div></li></ul>`}
           </li>
-        `).join('')}
-      </ul>`
+        `).join('')
+        }
+      </ul > `
     }
 
     $pageList.innerHTML = loadList(this.state)
 
     const $addPageButton = document.createElement('div')
-    $addPageButton.innerHTML = `<button class="btn-add-root">페이지 추가</button>`
+    $addPageButton.innerHTML = `<button class="btn-add-root"> 페이지 추가</button> `
     $pageList.appendChild($addPageButton)
   }
 
@@ -62,6 +64,11 @@ export default function PageList({
       // 페이지 리스트 토글버튼
       if ($this.classList.contains('btn-toggle-page')) {
         $li.classList.toggle('open')
+        if ($li.classList.contains('open')) {
+          setItem(`isOpend_${id}`, true)
+        } else {
+          removeItem(`isOpend_${id}`)
+        }
       }
 
       // 페이지 삭제 버튼
@@ -72,6 +79,11 @@ export default function PageList({
       // 페이지 추가 버튼
       if ($this.classList.contains('btn-add-page')) {
         onAddPage(id)
+        if ($li.closest('li') && !$li.classList.contains('open')) {
+          $li.closest('li').classList.add('open')
+          const { id } = $li.closest('li').dataset
+          setItem(`isOpend_${id}`, true)
+        }
       }
     }
 
