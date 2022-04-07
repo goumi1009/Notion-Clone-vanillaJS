@@ -1,3 +1,5 @@
+import { API_END_POINT, USERNAME } from './constants.js';
+
 export const request = async (url, options = {}) => {
   try {
     const res = await fetch(
