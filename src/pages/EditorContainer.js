@@ -2,7 +2,7 @@ import { request } from '../utils/api.js';
 import { getItem, setItem } from '../utils/storage.js';
 import Editor from '../components/Editor.js';
 
-export default function EditorContainer({ $target, initialState }) {
+export default function EditorContainer({ $target, initialState, onEditing }) {
   const $editorContainer = document.createElement('div');
   $editorContainer.classList.add('editor-container');
 
@@ -26,7 +26,6 @@ export default function EditorContainer({ $target, initialState }) {
       }
 
       timer = setTimeout(async () => {
-        console.log(page);
         setItem(autoSaveLocalKey, {
           ...page,
           saveDate: new Date(),
@@ -38,6 +37,7 @@ export default function EditorContainer({ $target, initialState }) {
         });
       }, 2000);
     },
+    onEditing,
   });
 
   this.setState = async (nextState) => {
@@ -69,7 +69,7 @@ export default function EditorContainer({ $target, initialState }) {
   const fetchPost = async () => {
     const { id } = this.state;
     const page = await request(`/${id}`);
-
+    console.log(page);
     const autoSavePage = getItem(autoSaveLocalKey, {
       title: '',
       content: '',

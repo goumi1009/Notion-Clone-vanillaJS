@@ -25,10 +25,12 @@ export default function App({ $target }) {
         method: 'DELETE',
       });
       await init();
+
       this.setState({
         ...this.state,
         pageList,
       });
+      console.log(this.state);
       push(`/`);
     },
     onAddPage: (id = null) => {
@@ -57,6 +59,9 @@ export default function App({ $target }) {
     initialState: {
       id: null,
     },
+    onEditing: async () => {
+      await init();
+    },
   });
 
   const init = async () => {
@@ -67,7 +72,6 @@ export default function App({ $target }) {
       ...this.state,
       pages,
     });
-    console.log(this.state);
   };
   init();
 
