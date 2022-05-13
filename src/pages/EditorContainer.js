@@ -2,61 +2,34 @@ import { request } from '../utils/api.js';
 import { getItem, setItem } from '../utils/storage.js';
 import Editor from '../components/Editor.js';
 
-export default function EditorContainer({ $target, initialState, onEditing }) {
+export default function EditorContainer({
+  $target,
+  initialState,
+  autoSave,
+  onEditing,
+}) {
   const $editorContainer = document.createElement('div');
   $editorContainer.classList.add('editor-container');
 
   this.state = initialState;
 
-  let autoSaveLocalKey = `autoSaveData_${this.state.id}`;
-
-  const page = getItem(autoSaveLocalKey, {
-    title: '',
-    content: '',
-  });
-
-  let timer = null;
-
-  const editor = new Editor({
-    $target: $editorContainer,
-    initialState: page,
-    autoSave: (page) => {
-      if (timer !== null) {
-        clearTimeout(timer);
-      }
-
-      timer = setTimeout(async () => {
-        setItem(autoSaveLocalKey, {
-          ...page,
-          saveDate: new Date(),
-        });
-
-        await request(`/${this.state.id}`, {
-          method: 'PUT',
-          body: JSON.stringify(page),
-        });
-      }, 2000);
-    },
-    onEditing,
-  });
-
   this.setState = async (nextState) => {
-    if (this.state.id !== nextState.id) {
-      autoSaveLocalKey = `autoSaveData_${nextState.id}`;
-      this.state = nextState;
-      await fetchPost();
-      return;
-    }
-
     this.state = nextState;
     this.render();
     editor.setState(
-      this.state.page || {
+      this.state.currentPage || {
         title: '',
         content: '',
       }
     );
   };
+
+  const editor = new Editor({
+    $target: $editorContainer,
+    initialState: this.state.currentPage,
+    autoSave,
+    onEditing,
+  });
 
   this.render = () => {
     if (this.state.id !== null) {
@@ -65,28 +38,4 @@ export default function EditorContainer({ $target, initialState, onEditing }) {
   };
 
   this.render();
-
-  const fetchPost = async () => {
-    const { id } = this.state;
-    const page = await request(`/${id}`);
-    console.log(page);
-    const autoSavePage = getItem(autoSaveLocalKey, {
-      title: '',
-      content: '',
-    });
-    const { saveDate } = autoSavePage;
-    if (saveDate && saveDate > page.updatedAt) {
-      if (confirm('저장되지 않은 데이터가 있습니다. 불러올까요?')) {
-        this.setState({
-          ...this.state,
-          page: autoSavePage,
-        });
-        return;
-      }
-    }
-    this.setState({
-      ...this.state,
-      page,
-    });
-  };
 }
