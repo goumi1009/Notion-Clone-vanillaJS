@@ -1,9 +1,8 @@
-import SideContainer from './SideContainer.js';
-import EditorContainer from './EditorContainer.js';
-import { initRouter } from './router.js';
-import { request } from './api.js';
-import { push } from './router.js';
-import { getItem, setItem } from './storage.js';
+import SideContainer from './components/SideContainer.js';
+import EditorContainer from './components/EditorContainer.js';
+import { request } from './utils/api.js';
+import { initRouter, push } from './utils/router.js';
+import { getItem, setItem } from './utils/storage.js';
 
 export default function App({ $target }) {
   this.state = {

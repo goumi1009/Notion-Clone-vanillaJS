@@ -1,5 +1,5 @@
-import { push } from './router.js';
-import { getItem, removeItem, setItem } from './storage.js';
+import { push } from '../utils/router.js';
+import { getItem, removeItem, setItem } from '../utils/storage.js';
 
 export default function PageList({
   $target,

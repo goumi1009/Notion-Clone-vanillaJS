@@ -42,8 +42,4 @@ export default function Editor({
     }
     autoSave(this.state);
   });
-
-  $editor.querySelector('[name="title"]').addEventListener('blur', (e) => {
-    onEditing();
-  });
 }
