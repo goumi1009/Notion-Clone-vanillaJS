@@ -2,45 +2,48 @@ export default function Editor({
   $target,
   initialState = {
     title: '',
-    content: ''
+    content: '',
   },
-  autoSave
+  autoSave,
 }) {
-  const $editor = document.createElement('div')
-  $target.appendChild($editor)
+  const $editor = document.createElement('div');
+  $target.appendChild($editor);
 
-  this.state = initialState
-  let isInitialized = false
+  this.state = initialState;
+  let isInitialized = false;
 
-  this.setState = nextState => {
-    this.state = nextState
-    this.render()
-  }
+  this.setState = (nextState) => {
+    this.state = nextState;
+    this.render();
+  };
 
   this.render = () => {
     if (!isInitialized) {
-      isInitialized = true
+      isInitialized = true;
       $editor.innerHTML = `
         <input name="title" type="text" title="페이지 제목" value="${this.state.title}">
         <textarea name="content">${this.state.content}</textarea>
-      `
+      `;
     }
-    $editor.querySelector('[name=title]').value = this.state.title
-    $editor.querySelector('[name=content]').value = this.state.content
+    $editor.querySelector('[name=title]').value = this.state.title;
+    $editor.querySelector('[name=content]').value = this.state.content;
+  };
+  this.render();
 
-  }
-  this.render()
-
-  $editor.addEventListener('keyup', e => {
-    const { target } = e
-    const name = target.name
+  $editor.addEventListener('keyup', (e) => {
+    const { target } = e;
+    const name = target.name;
     if (this.state[name] !== undefined) {
       const nextState = {
         ...this.state,
-        [name]: target.value
-      }
-      this.setState(nextState)
+        [name]: target.value,
+      };
+      this.setState(nextState);
     }
-    autoSave(this.state)
-  })
+    autoSave(this.state);
+  });
+
+  $editor.querySelector('[name="title"]').addEventListener('blur', (e) => {
+    onEditing();
+  });
 }

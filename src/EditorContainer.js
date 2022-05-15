@@ -6,8 +6,6 @@ export default function EditorContainer({ $target, initialState, autoSave }) {
 
   this.state = initialState;
 
-  let timer = null;
-
   const editor = new Editor({
     $target: $editorContainer,
     initialState: this.state.page,
